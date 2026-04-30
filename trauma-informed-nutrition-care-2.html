@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trauma-Informed Nutrition Care | UQ Dietetics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: 0; font-family: 'DM Sans', system-ui, sans-serif; background: #faf6f1; }
+    nav::-webkit-scrollbar { display: none; }
+    button { font-family: inherit; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const C = {
+      clay: "#7a3f2d", rust: "#a0522d", terra: "#c4724a", peach: "#e8a882",
+      cream: "#faf6f1", rose: "#c4726a", dusty: "#8c5c5a",
+      slate: "#4a3f3a", fog: "#9e8e88", sage: "#7a8c6a", teal: "#4a7c6a",
+      gold: "#b89040", warm: "#f5ede4", border: "#e0d0c4",
+    };
+    const SERIF = "'Cormorant Garamond', Georgia, serif";
+    const SANS = "'DM Sans', system-ui, sans-serif";
+
+    const tabs = [
+      { id: "what", label: "What is TIC?", icon: "🌿" },
+      { id: "howappears", label: "How Trauma Appears", icon: "👁️" },
+      { id: "principles", label: "Practice Principles", icon: "🤲" },
+      { id: "scenarios", label: "Scripts & Scenarios", icon: "💬" },
+      { id: "language", label: "Language Guide", icon: "🗣️" },
+      { id: "selfcare", label: "Practitioner Self-Care", icon: "🌸" },
+      { id: "references", label: "References", icon: "📖" },
+    ];
+
+    const references = [
+      {
+        category: "Foundational TIC Texts",
+        color: C.teal, icon: "🏛️",
+        items: [
+          { citation: "Herman, J. L. (1992). Trauma and recovery: The aftermath of violence — from domestic abuse to political terror. Basic Books.", note: "The foundational text establishing trauma as a clinical and social phenomenon. Essential background reading." },
+          { citation: "SAMHSA. (2014). SAMHSA's concept of trauma and guidance for a trauma-informed approach. HHS Publication No. (SMA) 14-4884. Substance Abuse and Mental Health Services Administration.", note: "Source of the 6 SAMHSA principles used throughout this resource. Freely available at samhsa.gov.", url: "https://store.samhsa.gov/product/SAMHSA-s-Concept-of-Trauma-and-Guidance-for-a-Trauma-Informed-Approach/SMA14-4884" },
+          { citation: "Van der Kolk, B. A. (2014). The body keeps the score: Brain, mind, and body in the healing of trauma. Viking.", note: "Accessible and comprehensive overview of trauma neuroscience and embodied trauma responses. Recommended for all clinical practitioners." },
+          { citation: "Levine, P. A. (1997). Waking the tiger: Healing trauma. North Atlantic Books.", note: "Introduces somatic approaches to understanding trauma. Basis for body-awareness content in this resource." },
+        ]
+      },
+      {
+        category: "ACEs & Trauma Prevalence",
+        color: C.rust, icon: "📊",
+        items: [
+          { citation: "Felitti, V. J., Anda, R. F., Nordenberg, D., Williamson, D. F., Spitz, A. M., Edwards, V., Koss, M. P., & Marks, J. S. (1998). Relationship of childhood abuse and household dysfunction to many of the leading causes of death in adults: The Adverse Childhood Experiences (ACE) Study. American Journal of Preventive Medicine, 14(4), 245–258.", note: "The landmark ACE study. Provides the epidemiological basis for the prevalence statistics cited in this resource — still the most cited source for ACE prevalence." },
+          { citation: "Anda, R. F., Felitti, V. J., Bremner, J. D., Walker, J. D., Whitfield, C., Perry, B. D., Dube, S. R., & Giles, W. H. (2006). The enduring effects of abuse and related adverse experiences in childhood. European Archives of Psychiatry and Clinical Neuroscience, 256(3), 174–186.", note: "Extends the ACE findings into neurobiology. Supports the neuroscience content in the What is TIC? section." },
+          { citation: "Petruccelli, K., Davis, J., & Berman, T. (2019). Adverse childhood experiences and associated health outcomes: A systematic review and meta-analysis. Child Abuse & Neglect, 97, 104127. https://doi.org/10.1016/j.chiabu.2019.104127", note: "More recent systematic review and meta-analysis synthesising health outcomes associated with the CDC-Kaiser ACE scale across 96 studies. Supports the breadth of ACE impacts referenced in this resource." },
+          { citation: "Jackson, D. B., Chilton, M., & Johnson, K. R. (2019). Adverse childhood experiences and household food insecurity: Findings from the 2016 National Survey of Children's Health. American Journal of Preventive Medicine, 57(5), 667–674.", note: "Directly links ACEs to food insecurity — highly relevant for dietitians working with food-insecure populations." },
+        ]
+      },
+      {
+        category: "Neuroscience of Trauma & Window of Tolerance",
+        color: C.gold, icon: "🧠",
+        items: [
+          { citation: "Siegel, D. J. (1999). The developing mind: How relationships and the brain interact to shape who we are. Guilford Press.", note: "Origin of the Window of Tolerance concept used in this resource. Siegel's interpersonal neurobiology framework underpins the hyperarousal/hypoarousal model." },
+          { citation: "Ogden, P., Minton, K., & Pain, C. (2006). Trauma and the body: A sensorimotor approach to psychotherapy. W. W. Norton & Company.", note: "Develops the Window of Tolerance into a clinical framework. Basis for body-in-the-room content in Practice Principles." },
+          { citation: "Porges, S. W. (2011). The polyvagal theory: Neurophysiological foundations of emotions, attachment, communication, and self-regulation. W. W. Norton & Company.", note: "Polyvagal theory provides the physiological basis for understanding how the nervous system responds to perceived safety and threat." },
+        ]
+      },
+      {
+        category: "Trauma & Eating Behaviour",
+        color: C.terra, icon: "🍽️",
+        items: [
+          { citation: "Brewerton, T. D. (2007). Eating disorders, trauma, and comorbidity: Focus on PTSD. Eating Disorders, 15(4), 285–304.", note: "Foundational review of the trauma-eating disorder relationship. Still widely cited." },
+          { citation: "Brewerton, T. D. (2019). An overview of trauma-informed care and practice for eating disorders. Journal of Aggression, Maltreatment & Trauma, 28(4), 445–462. https://doi.org/10.1080/10926771.2018.1532940", note: "More recent overview specifically applying TIC principles to eating disorder treatment. Updates the 2007 paper and directly relevant to dietetic practice in ED settings." },
+          { citation: "Mitchell, K. S., Mazzeo, S. E., Schlesinger, M. R., Brewerton, T. D., & Smith, B. N. (2012). Comorbidity of partial and subthreshold PTSD among men and women with eating disorders in the National Comorbidity Survey-Replication Study. International Journal of Eating Disorders, 45(3), 307–315.", note: "Provides prevalence data on PTSD comorbidity in eating disorder populations." },
+          { citation: "Dube, S. R., Felitti, V. J., Dong, M., Giles, W. H., & Anda, R. F. (2003). The impact of adverse childhood experiences on health problems: Evidence from four birth cohorts dating back to 1900. Preventive Medicine, 37(3), 268–277.", note: "Links ACEs to chronic health conditions including those commonly presenting in dietetic practice." },
+        ]
+      },
+      {
+        category: "TIC in Healthcare & Allied Health",
+        color: C.sage, icon: "🏥",
+        items: [
+          { citation: "Muskett, C. (2014). Trauma-informed care in inpatient mental health settings: A review of the literature. International Journal of Mental Health Nursing, 23(1), 51–59.", note: "Reviews TIC implementation in clinical settings. Relevant to acute and inpatient dietetic practice contexts." },
+          { citation: "Raja, S., Hasnain, M., Hoersch, M., Gove-Yin, S., & Rajagopalan, C. (2015). Trauma informed care in medicine: Current knowledge and future research directions. Family & Community Health, 38(3), 216–226.", note: "Examines TIC across medical disciplines. Provides framework for the universal precautions approach referenced in this resource." },
+          { citation: "Rodriguez, N., Gonzales-Pacheco, D. M., Byham-Gray, L., & Rothpletz-Puglia, P. (2023). Trauma-informed care training for dietetic interns improves attitudes toward women who have experienced trauma. Journal of Nutrition Education and Behavior, 55(12), 869–876. https://doi.org/10.1016/j.jneb.2023.10.007", note: "The most directly relevant peer-reviewed study to this resource: demonstrates that TIC training in dietetic education improves intern attitudes and is feasible to implement. Highly recommended reading." },
+          { citation: "Williams, D. R., Chaves, E., & colleagues. (2023). Clinical review: Implementation of trauma informed care to optimally impact the treatment of childhood obesity. Obesity Pillars, 5, 100052. https://doi.org/10.1016/j.obpill.2022.100052", note: "Applies TIC to paediatric obesity practice, linking ACEs to energy regulation pathophysiology. Useful for dietitians in paediatric and weight management contexts." },
+          { citation: "Gallagher, D., Bailey, A., Byham-Gray, L., Rigassio-Radler, D., & Ziegler, J. (2025). Development of a trauma-informed, culturally sensitive eating-disorder-specific nutrition-focused physical examination tool: A modified Delphi study. Nutrients, 17(9), 1449. https://doi.org/10.3390/nu17091449", note: "Very recent (2025) dietetics-specific study developing a trauma-informed physical examination tool for eating disorders. Demonstrates the growing dietetics-specific TIC evidence base." },
+          { citation: "Parker, E. K., Ashley, M. A., Moretti, C., Harris, D. M., & Stefoska-Needham, A. (2022). Exploring perceived training and professional development needs of Australian dietetic students and practising dietitians in the area of eating disorders: A focus group study. Journal of Eating Disorders, 10, 40. https://doi.org/10.1186/s40337-022-00567-0", note: "Australian study directly relevant to this resource's context. Identifies gaps in eating disorder and trauma-related training for Australian dietitians and students." },
+          { citation: "Parker, E. K., Ashley, M. A., Harris, D. M., & Stefoska-Needham, A. (2023). Exploring the eating disorder curricula of accredited university dietetic programs in Australia and New Zealand. Journal of Eating Disorders, 11, 62. https://doi.org/10.1186/s40337-023-00788-x", note: "Examines how Australian and New Zealand dietetics programs address eating disorders — relevant context for understanding where TIC fits within current dietetic education." },
+        ]
+      },
+      {
+        category: "Practitioner Wellbeing & Vicarious Trauma",
+        color: C.dusty, icon: "🌸",
+        items: [
+          { citation: "Figley, C. R. (Ed.). (1995). Compassion fatigue: Coping with secondary traumatic stress disorder in those who treat the traumatized. Brunner/Mazel.", note: "The foundational text on secondary traumatic stress and compassion fatigue. Basis for the Practitioner Self-Care section." },
+          { citation: "Pearlman, L. A., & Saakvitne, K. W. (1995). Trauma and the therapist: Countertransference and vicarious traumatization in psychotherapy with incest survivors. W. W. Norton & Company.", note: "Introduced the concept of vicarious traumatisation. Relevant to all practitioners working with trauma-affected populations." },
+          { citation: "Maslach, C., & Leiter, M. P. (1997). The truth about burnout: How organizations cause personal stress and what to do about it. Jossey-Bass.", note: "Definitive text on burnout. Basis for the STS vs burnout distinction in the self-care section." },
+          { citation: "Stamm, B. H. (2010). The concise ProQOL manual (2nd ed.). ProQOL.org.", note: "Provides the Professional Quality of Life (ProQOL) scale — a validated tool for measuring compassion satisfaction, burnout, and secondary traumatic stress." },
+        ]
+      },
+      {
+        category: "Motivational Interviewing",
+        color: C.clay, icon: "🎙️",
+        items: [
+          { citation: "Miller, W. R., & Rollnick, S. (2013). Motivational interviewing: Helping people change (3rd ed.). Guilford Press.", note: "The definitive MI text. Basis for the righting reflex concept and MI techniques referenced in the Scripts & Scenarios section." },
+          { citation: "Rollnick, S., Miller, W. R., & Butler, C. C. (2008). Motivational interviewing in health care: Helping patients change behavior. Guilford Press.", note: "Healthcare-specific application of MI. Highly relevant to dietetic practice and the consultation scripts in this resource." },
+        ]
+      },
+    ];
+
+    const samhsaPrinciples = [
+      { num: "1", name: "Safety", icon: "🛡️", color: C.teal,
+        general: "Creating an environment — physical and emotional — where the person feels safe.",
+        dietetics: "Introduce yourself and explain the purpose of the session before asking anything. Give the person control over seating, pacing, and what they share. Never stand over a patient — sit at eye level.",
+        ask: '"Is there anything about this room or this appointment that I can change to make you more comfortable?"' },
+      { num: "2", name: "Trustworthiness & Transparency", icon: "🔍", color: C.rust,
+        general: "Making tasks clear and understandable. Maintaining appropriate boundaries. Building trust over time.",
+        dietetics: "Explain what you will do with dietary information before collecting it. Tell the person who will see your notes. Don't promise confidentiality you can't keep. Follow through on every commitment you make.",
+        ask: '"Before we start, I want to explain what will happen today and what I\'ll do with the information you share with me."' },
+      { num: "3", name: "Peer Support", icon: "🤝", color: C.sage,
+        general: "Valuing lived experience. Recognising that people with similar experiences can support each other.",
+        dietetics: "Acknowledge and validate the person's lived experience with food and eating. Consider referring to peer support groups, community eating programmes, or lived-experience advocates where appropriate.",
+        ask: '"Would it be helpful to connect with others who have been through something similar?"' },
+      { num: "4", name: "Collaboration & Mutuality", icon: "⚖️", color: C.gold,
+        general: "Recognising the power differential between clinician and patient, and actively working to reduce it.",
+        dietetics: "Co-create dietary goals rather than prescribing them. Acknowledge the limits of your own knowledge. Invite disagreement. Recognise that healing happens in relationships — including the therapeutic relationship with you.",
+        ask: '"What feels most important to you? Let\'s build the plan around that rather than me telling you what to do."' },
+      { num: "5", name: "Empowerment, Voice & Choice", icon: "⚡", color: C.terra,
+        general: "Prioritising the person's strengths and agency. Offering meaningful choices rather than a single directive.",
+        dietetics: "Always offer options, not instructions. Acknowledge the expertise the person already has about their own body and food preferences. Avoid framing dietary change as 'fixing' the person.",
+        ask: '"Of the options we\'ve talked about, which one feels most doable for you right now?"' },
+      { num: "6", name: "Cultural & Historical Context", icon: "🌍", color: C.dusty,
+        general: "Recognising how cultural background, historical trauma, gender, and identity shape a person's experience.",
+        dietetics: "Food is deeply cultural. Never pathologise food practices that differ from mainstream Australian eating. Acknowledge that historical and intergenerational trauma affects how people engage with clinicians today.",
+        ask: '"Tell me about how food and eating fit into your family and cultural background — that\'s really important for me to understand."' },
+    ];
+
+    const howAppearsData = [
+      { category: "In the Dietary History", icon: "📋", color: C.rust, signs: [
+        { sign: "Vague or inconsistent reporting of intake", why: "Shame, dissociation, or fear of judgement about eating patterns" },
+        { sign: "Minimising or deflecting questions about food", why: "Food may be associated with control, punishment, or unsafe relationships" },
+        { sign: "Strong emotional reactions to specific foods or food groups", why: "Trauma memories can be embedded in sensory experiences including food" },
+        { sign: "All-or-nothing thinking about eating ('I'm either good or bad')", why: "May reflect trauma responses including hypervigilance and black-and-white thinking" },
+        { sign: "Reporting eating that seems inconsistent with clinical presentation", why: "Restricted reporting due to shame; or genuinely chaotic intake driven by trauma responses" },
+      ]},
+      { category: "In the Consultation Room", icon: "🏥", color: C.clay, signs: [
+        { sign: "Hypervigilance — scanning the room, startling easily, difficulty settling", why: "Activated nervous system; the clinical environment may feel threatening" },
+        { sign: "Dissociation — appearing 'checked out', giving flat or delayed responses", why: "The brain's protective response to perceived threat; may intensify with difficult topics" },
+        { sign: "Aggression, irritability, or hostility toward the clinician", why: "May reflect mistrust of healthcare systems built from past negative experiences" },
+        { sign: "Excessive compliance — agreeing with everything, never disagreeing", why: "May reflect learned behaviour from powerless situations; 'fawning' trauma response" },
+        { sign: "Crying, visible distress, or shutting down mid-consultation", why: "Topic has triggered a trauma memory or emotional overwhelm" },
+      ]},
+      { category: "In Eating Behaviour", icon: "🍽️", color: C.terra, signs: [
+        { sign: "Chronic restrictive eating or extreme dietary control", why: "Food restriction often provides a sense of control when other areas of life feel unsafe" },
+        { sign: "Binge eating or chaotic eating patterns", why: "May be a coping mechanism for emotional dysregulation or numbing" },
+        { sign: "Eating in secret or extreme shame around eating", why: "Food shaming or punishment in childhood is a common ACE (Adverse Childhood Experience)" },
+        { sign: "Inability to feel hunger or fullness cues", why: "Chronic trauma and dissociation can disrupt interoceptive awareness" },
+        { sign: "Strong resistance to dietary change despite acknowledged need", why: "Dietary patterns may be deeply tied to identity, safety, or survival" },
+      ]},
+    ];
+
+    const practicePrinciples = [
+      { title: "Pause Before Educating", icon: "⏸️", color: C.teal,
+        detail: "When a patient is distressed, dissociated, or in fight/flight, they cannot absorb dietary information. The consultation goal changes — your role is to regulate the environment and co-regulate with the patient before any nutrition education can occur.",
+        doThis: ["Name what you're observing, gently: 'I notice you seem a bit overwhelmed right now'", "Offer a pause, water, or a change of pace", "Drop the dietary agenda for that session if needed", "Prioritise presence over productivity"],
+        notThis: ["Pushing through the dietary assessment when the patient is clearly distressed", "Interpreting shutdown or flatness as disengagement or rudeness", "Completing your intake form regardless of the patient's state"] },
+      { title: "Ask Permission Constantly", icon: "🙋", color: C.rust,
+        detail: "Trauma often involves experiences of powerlessness. Returning agency through constant permission-seeking is one of the most powerful tools in trauma-informed practice — even for mundane things.",
+        doThis: ["'Is it okay if I ask you about your eating patterns?'", "'I'd like to weigh you today — is that okay with you?'", "'Would it be alright if I shared this information with your GP?'", "'I'm going to suggest something — you can absolutely say no'"],
+        notThis: ["Assuming consent to assessment", "Proceeding with weighing or measurement without explicit agreement", "Using passive permission ('unless you object, I'll...')"] },
+      { title: "Validate Before You Educate", icon: "❤️", color: C.rose,
+        detail: "Validation means communicating that the person's response makes sense given what they've been through. It is not agreement — it is acknowledgement. Patients who feel validated are neurobiologically more able to receive information.",
+        doThis: ["'It makes complete sense that you've struggled with this'", "'Given what you've been through, the way you eat makes sense as a way of coping'", "'That sounds really hard — I can understand why food has become complicated'"],
+        notThis: ["'You just need to try harder'", "'Other patients manage to follow the plan'", "Moving straight to advice after a disclosure"] },
+      { title: "Recognise & Respect Coping", icon: "🌿", color: C.sage,
+        detail: "Eating behaviours that look 'problematic' clinically are often adaptive responses to trauma. Restriction, bingeing, or rigid food rules may have been survival strategies. They should never be pathologised without understanding their function.",
+        doThis: ["Explore the function of the eating behaviour before trying to change it", "Acknowledge what the behaviour has done for the person", "'It sounds like this way of eating has helped you feel safe — that's important to understand before we think about change'"],
+        notThis: ["Labelling eating patterns as 'bad habits' or 'non-compliant behaviour'", "Setting goals to eliminate coping behaviours without addressing the underlying need", "Framing restriction or avoidance purely as a clinical problem to fix"] },
+      { title: "Know Your Scope & When to Escalate", icon: "🚨", color: C.clay,
+        detail: "Trauma-informed practice is not trauma therapy. Dietitians are not trained to process trauma with patients. Your role is to create a safe environment, avoid re-traumatisation, and recognise when a referral is needed.",
+        doThis: ["Refer to psychology, social work, or trauma-specialist services when trauma is clearly driving the presentation", "Consult with your supervisor when unsure", "Document concerns clearly and communicate with the treating team", "Know your workplace's mental health escalation pathways"],
+        notThis: ["Attempting to 'work through' trauma disclosures in a dietetic consultation", "Asking probing questions about traumatic events", "Assuming the patient is safe to leave without checking in if they have disclosed something significant"] },
+      { title: "Attend to the Body in the Room", icon: "🧘", color: C.gold,
+        detail: "Trauma lives in the body. Body-based cues — breathing, posture, gaze, movement — tell you more about a patient's state than their words do. Attending to these cues allows you to adjust in real time.",
+        doThis: ["Notice signs of activation: shallow breathing, clenched jaw, rigid posture, wide eyes", "Notice signs of shutdown: flat affect, slow response, glazed gaze", "Name what you see gently and offer a grounding option", "Slow your own speech and breathing — it is contagious"],
+        notThis: ["Ignoring visible distress because the patient says 'I'm fine'", "Continuing to deliver information rapidly when you can see the patient is not present", "Misinterpreting shutdown as apathy or resistance"] },
+    ];
+
+    const scenarios = [
+      { id: 1, title: "The Patient Who Shuts Down", tag: "Dissociation / Shutdown", color: C.clay,
+        context: "You are a student dietitian seeing Leila, 34, for a follow-up following bariatric surgery. Mid-way through asking about her eating patterns, she becomes very quiet, gives one-word answers, and appears to have disconnected from the conversation. You recall from her notes that she has a history of childhood trauma.",
+        script: [
+          { spk: "D", name: "Dietitian", text: "Can you tell me a bit more about what your meals have looked like this week?", note: null },
+          { spk: "P", name: "Leila", text: "Fine. I eat. It's fine.", note: null },
+          { spk: "D", name: "Dietitian", text: "I'm noticing you've gone a bit quiet — that's completely okay. I just want to check in. How are you doing right now, in this moment?", note: "Names the observation gently. Doesn't push the dietary agenda. Prioritises connection over content." },
+          { spk: "P", name: "Leila", text: "I don't know. I just... sometimes I just go somewhere else. Sorry.", note: null },
+          { spk: "D", name: "Dietitian", text: "Please don't apologise — you haven't done anything wrong at all. That can happen. Can I ask — is there something we were talking about that felt hard?", note: "Removes shame immediately. Invites gentle exploration without pressing." },
+          { spk: "P", name: "Leila", text: "It's... eating by yourself is just... I grew up where mealtimes weren't safe. So eating alone now is weird.", note: null },
+          { spk: "D", name: "Dietitian", text: "Thank you for telling me that. That really helps me understand. Mealtimes not being safe growing up — that leaves a mark. It makes complete sense that eating alone now brings up something. We don't have to go any further into that today — but I want you to know it changes how I'm thinking about the support that might actually help you.", note: "Validates without probing further. Explicitly does not press for more detail. Signals that the disclosure matters clinically." },
+          { spk: "D", name: "Dietitian", text: "Would it be okay if I put a note in your file to discuss a referral to one of our psychologists, alongside the nutrition work? It might be really useful to have that support running at the same time.", note: "Offers referral collaboratively. Frames it as complementary, not a redirect away from them." },
+        ],
+        techniques: ["Noticing and naming shutdown", "Removing shame from the patient's response", "Gentle invitation without pressure", "Validation without probing", "Appropriate referral offered collaboratively"],
+        reflection: "Leila might have said 'I'm fine' and moved on. What non-verbal cues would you look for that suggest a patient has disconnected, even when they say they're okay?" },
+      { id: 2, title: "Weighing a Patient Who Becomes Distressed", tag: "Body Autonomy / Trauma Response", color: C.rose,
+        context: "You are about to weigh Jonah, 28, who has been referred for weight management following a new Type 2 diabetes diagnosis. As you ask him to step on the scales, he becomes visibly tense — jaw clenched, arms crossed, looking at the floor. He steps on but is clearly uncomfortable.",
+        script: [
+          { spk: "D", name: "Dietitian", text: "Before we get started today, I just want to check — is it okay with you if I weigh you? You can say no and we can work without that information.", note: "Seeking explicit consent before weighing. This is not standard practice for most — but it should be." },
+          { spk: "P", name: "Jonah", text: "I guess. Yeah, fine.", note: null },
+          { spk: "D", name: "Dietitian", text: "Okay — and just so you know, you don't have to look at the number if you'd prefer not to. I'll record it and use it clinically, but it's yours to engage with however feels okay.", note: "Offers another layer of choice. Removes the weight number as something 'done to' the patient." },
+          { spk: "P", name: "Jonah", text: "[Steps on scales. Jaw still clenched. Steps off. Sits back down silently.]", note: null },
+          { spk: "D", name: "Dietitian", text: "Thank you. I noticed that felt a bit uncomfortable — and I want you to know that makes complete sense. A lot of people have complicated feelings about being weighed, often for really valid reasons.", note: "Names discomfort without pressing for explanation. Normalises the response." },
+          { spk: "P", name: "Jonah", text: "I was bullied a lot as a kid about my weight. PE class. You know.", note: null },
+          { spk: "D", name: "Dietitian", text: "I'm really sorry that happened to you. That kind of experience stays with you. I want to say — that's not what this is. My only interest is in helping you feel well and manage your diabetes. The number on the scale is just one piece of information among many, and it doesn't tell me anything about you as a person.", note: "Acknowledges past harm. Differentiates the current relationship from past experiences. Reframes the clinical purpose of weighing." },
+          { spk: "D", name: "Dietitian", text: "Going forward — would it be helpful to sometimes skip the scales and use other ways of checking in on progress? That's absolutely something we can do.", note: "Offers ongoing agency. Makes the adjustment for future sessions, not just this one." },
+        ],
+        techniques: ["Consent before weighing", "Option not to see the number", "Naming visible discomfort without pressing", "Acknowledging historical harm", "Offering ongoing adjustment to practice"],
+        reflection: "Routine clinical tasks like weighing can be retraumatising. What other standard dietetic procedures might carry hidden distress — and how would you adapt them?" },
+      { id: 3, title: "When a Patient Discloses Abuse During a Nutrition History", tag: "Unexpected Disclosure / Escalation", color: C.dusty,
+        context: "You are taking a nutrition history from Margaret, 67, referred for unintentional weight loss. While asking about her home environment and who prepares her meals, she mentions quietly that her husband 'controls what she's allowed to eat' and that she sometimes goes without food when he's angry.",
+        script: [
+          { spk: "D", name: "Dietitian", text: "You mentioned your husband controls what you're able to eat. Can I ask — do you mean he chooses most of the meals, or is it something that affects whether you're able to eat at all?", note: "Clarifies gently. Does not assume — asks the patient to explain in their own words." },
+          { spk: "P", name: "Margaret", text: "[Long pause] When he's angry, sometimes there just... isn't food. Or I'm not allowed in the kitchen.", note: null },
+          { spk: "D", name: "Dietitian", text: "Thank you for trusting me with that, Margaret. That took courage. What you're describing — not being able to access food in your own home — that's something I take very seriously, and I want to make sure I respond to it properly.", note: "Acknowledges the trust. Does not minimise. Signals that this will be acted on, not ignored." },
+          { spk: "D", name: "Dietitian", text: "I need to be honest with you — I'm a student dietitian and I need to involve my supervisor in this conversation, because what you're describing goes beyond nutrition and I want to make sure you get the right support. Would that be okay?", note: "Transparent about scope of role. Does not attempt to manage a safeguarding disclosure alone. Seeks consent before escalating." },
+          { spk: "P", name: "Margaret", text: "I don't want to cause trouble.", note: null },
+          { spk: "D", name: "Dietitian", text: "I hear you — and I respect that completely. I won't do anything without talking to you first. Can I just ask my supervisor to come and join us? She's very experienced and she'll be kind. You're not in trouble — none of this is your fault.", note: "Respects her hesitation. Seeks permission again. Reassures and removes blame. Does not proceed without consent." },
+        ],
+        techniques: ["Clarifying without leading", "Acknowledging the trust required to disclose", "Transparent about limits of student scope", "Seeking consent before involving supervisor", "Removing blame and reassuring"],
+        reflection: "You are a student and you cannot manage a safeguarding concern alone. What is your workplace's process for escalating a disclosure like this — and who would you contact first?" },
+      { id: 4, title: "The Patient Who is Hostile", tag: "Fight Response / Mistrust of Healthcare", color: C.terra,
+        context: "Ryan, 45, has been admitted following a cardiac event. He has a history of significant trauma and repeated negative experiences with the healthcare system. When you introduce yourself as the student dietitian, he says: 'Another one. I don't need anyone else poking around in my life. Just leave me alone.'",
+        script: [
+          { spk: "D", name: "Dietitian", text: "Okay. I'll leave you alone if that's what you want — absolutely. Would it be alright if I just said one thing first, and then I'll go?", note: "Immediately honours the request. Does not argue or justify. Asks minimal permission to continue." },
+          { spk: "P", name: "Ryan", text: "[Silence. Doesn't say no.]", note: null },
+          { spk: "D", name: "Dietitian", text: "I've read a bit of your file. I can see you've been through a lot — in here and probably well before that. I'm not here to give you a lecture or add to your list of things to do. I just wanted to introduce myself and let you know that if there's anything food-related I can help with while you're here — even just making sure you're getting something you actually want to eat — that's what I'm here for. You're in charge of whether that happens.", note: "Acknowledges his history briefly and respectfully. Reframes the dietitian role as service, not authority. Returns all control to the patient." },
+          { spk: "P", name: "Ryan", text: "[Pause] The food here is terrible.", note: null },
+          { spk: "D", name: "Dietitian", text: "Yeah. That's fair. What would you actually want to eat right now, if you could have anything?", note: "Meets him where he is. Uses humour lightly. Opens a non-threatening, preference-based conversation." },
+        ],
+        techniques: ["Honouring the refusal immediately", "Minimal foothold permission ('just one thing')", "Acknowledging past harm without probing", "Reframing dietitian as service not authority", "Entering through patient's own expressed concern"],
+        reflection: "Hostility in patients is often a sign of a nervous system in protection mode, not a personal attack. How do you look after yourself emotionally when a patient responds this way — and how does that affect your next consultation?" },
+    ];
+
+    const languageGuide = {
+      avoid: [
+        { phrase: '"You just need to try harder"', why: "Implies willpower as the solution. Ignores the role of trauma in behaviour." },
+        { phrase: '"Other patients manage to follow the plan"', why: "Shaming through comparison. Dismisses individual context." },
+        { phrase: '"You\'re being non-compliant"', why: "Frames avoidance or resistance as deliberate defiance rather than a trauma response." },
+        { phrase: '"You need to eat more / less"', why: "Directive without collaboration. Removes agency." },
+        { phrase: '"That\'s not a very healthy relationship with food"', why: "Labels and pathologises coping behaviour without understanding its function." },
+        { phrase: '"What happened to you?" (unprompted)', why: "Probing for trauma history is not the dietitian's role. It can re-traumatise." },
+        { phrase: '"You should be feeling better by now"', why: "Dismisses individual timelines for healing and recovery." },
+        { phrase: '"It\'s just food"', why: "Minimises the emotional, relational, and survival significance of food for trauma survivors." },
+      ],
+      use: [
+        { phrase: '"It makes sense that this has been hard"', why: "Validates without needing to know the full story. Normalises the response." },
+        { phrase: '"Is it okay if I ask about...?"', why: "Returns agency. Every permission request is an act of safety." },
+        { phrase: '"You don\'t have to share anything you don\'t want to"', why: "Explicitly removes pressure. Creates psychological safety for the session." },
+        { phrase: '"What feels most important to you right now?"', why: "Opens space for the patient's priorities rather than the clinician's agenda." },
+        { phrase: '"I\'m curious about what eating has been like for you — in your own words"', why: "Open, non-leading. Invites narrative rather than yes/no responses." },
+        { phrase: '"That eating pattern sounds like it\'s been serving a purpose for you"', why: "Acknowledges coping function before moving toward change." },
+        { phrase: '"You\'re the expert on your own body and what works for you"', why: "Redistributes expertise. Reduces power differential." },
+        { phrase: '"We can slow down or stop whenever you need to"', why: "Reiterates ongoing control throughout the session." },
+      ],
+    };
+
+    const selfCareData = [
+      { title: "Vicarious Trauma is Real", icon: "🌊", color: C.teal,
+        content: "Repeated exposure to patient trauma narratives affects the nervous system of the clinician. This is not weakness — it is a physiological response. Vicarious trauma can manifest as hypervigilance, numbness, cynicism, sleep disturbance, or difficulty being present in sessions.",
+        actions: ["Name it: notice when you feel affected by a session", "Debrief with a supervisor or trusted colleague after difficult consultations", "Keep a brief reflective journal — even two sentences after a hard day", "Distinguish between empathy (therapeutic) and absorption (unsustainable)"] },
+      { title: "Supervision as a Safety Structure", icon: "🏗️", color: C.rust,
+        content: "Supervision is not just a student requirement — it is an ongoing professional necessity for all clinicians working with trauma-affected populations. It provides a structured space to process your own responses and ensure you are not unconsciously re-enacting dynamics from your own history.",
+        actions: ["Use supervision to discuss not just clinical decisions, but emotional responses", "Be honest with your supervisor about consultations you found difficult", "Don't wait for the formal supervision slot — ask for an ad hoc debrief after a significant disclosure", "Normalise seeking support as a sign of good practice, not inadequacy"] },
+      { title: "Recognise Your Own Window of Tolerance", icon: "📊", color: C.gold,
+        content: "The Window of Tolerance is the zone in which you can be present, reflective, and emotionally regulated. When you are outside it — either hyper-aroused (anxious, reactive) or hypo-aroused (numb, flat) — you cannot provide trauma-informed care. Knowing your own window is a professional responsibility.",
+        actions: ["Notice when you are approaching your edges — before a session, not during", "Develop a brief grounding practice you can use between patients (3 breaths, cold water on hands)", "Reschedule or handover if you are genuinely dysregulated before a complex session", "Treat your own regulation as part of patient safety"] },
+      { title: "Secondary Traumatic Stress vs Burnout", icon: "🔍", color: C.dusty,
+        content: "Secondary Traumatic Stress (STS) comes from indirect exposure to another person's trauma. Burnout comes from chronic workplace stress. They look similar but have different roots. Both are common in dietitians working with vulnerable populations and both require specific responses.",
+        actions: ["STS: seek professional support, reduce caseload of high-trauma clients, increase peer connection", "Burnout: review workload, advocate for systemic change, examine workplace expectations", "Both: physical activity, sleep, time away from clinical work, activities that restore a sense of meaning", "Neither resolves with 'just taking a holiday' — seek appropriate support"] },
+    ];
+
+    function SectionHeader({ title, subtitle }) {
+      return (
+        <div style={{ marginBottom: "0.5rem" }}>
+          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", color: C.slate, margin: "0 0 0.5rem", fontWeight: 700 }}>{title}</h2>
+          <p style={{ fontFamily: SANS, fontSize: "0.95rem", color: C.fog, margin: 0, lineHeight: 1.6 }}>{subtitle}</p>
+        </div>
+      );
+    }
+
+    function App() {
+      const [activeTab, setActiveTab] = useState("what");
+      const [expandedSamhsa, setExpandedSamhsa] = useState(null);
+      const [expandedAppears, setExpandedAppears] = useState(0);
+      const [expandedPrinciple, setExpandedPrinciple] = useState(null);
+      const [expandedScenario, setExpandedScenario] = useState(null);
+      const [langView, setLangView] = useState("avoid");
+      const [expandedSelfCare, setExpandedSelfCare] = useState(null);
+      const [expandedRef, setExpandedRef] = useState(null);
+
+      return (
+        <div style={{ background: C.cream, minHeight: "100vh", color: C.slate, fontFamily: SANS }}>
+
+          {/* Header */}
+          <header style={{ background: `linear-gradient(135deg, ${C.slate} 0%, ${C.clay} 60%, ${C.rust} 100%)`, color: "white", padding: "3.5rem 2rem 2.5rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 15% 60%, rgba(232,168,130,0.2) 0%, transparent 50%), radial-gradient(circle at 85% 20%, rgba(122,63,45,0.3) 0%, transparent 50%)", pointerEvents: "none" }} />
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>🌿 🤲 💬</div>
+              <h1 style={{ fontFamily: SERIF, fontSize: "clamp(1.9rem, 4.5vw, 3rem)", fontWeight: 700, margin: "0 0 0.75rem", lineHeight: 1.15 }}>
+                Trauma-Informed Nutrition Care
+              </h1>
+              <p style={{ fontFamily: SANS, fontSize: "1.05rem", fontWeight: 300, opacity: 0.88, maxWidth: "580px", margin: "0 auto 1.5rem", lineHeight: 1.65 }}>
+                A professional development resource for dietetics students and practitioners — understanding how trauma shapes eating, and how to adapt your practice in response
+              </p>
+              <div style={{ display: "flex", gap: "0.6rem", justifyContent: "center", flexWrap: "wrap" }}>
+                {["SAMHSA Framework", "Annotated Scripts", "Language Guide", "Self-Care"].map((tag, i) => (
+                  <span key={i} style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: "20px", padding: "0.25rem 0.9rem", fontSize: "0.8rem", color: "rgba(255,255,255,0.92)", fontWeight: 500 }}>{tag}</span>
+                ))}
+              </div>
+            </div>
+          </header>
+
+          {/* Tabs */}
+          <nav style={{ display: "flex", overflowX: "auto", background: "white", borderBottom: `3px solid ${C.border}`, boxShadow: "0 2px 12px rgba(74,63,58,0.08)", scrollbarWidth: "none" }}>
+            {tabs.map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: "1 1 auto", minWidth: "90px", padding: "0.9rem 0.75rem", border: "none", background: activeTab === tab.id ? C.slate : "transparent", color: activeTab === tab.id ? "white" : C.fog, fontFamily: SANS, fontWeight: activeTab === tab.id ? 600 : 400, fontSize: "0.72rem", cursor: "pointer", letterSpacing: "0.04em", textTransform: "uppercase", borderBottom: activeTab === tab.id ? `3px solid ${C.peach}` : "3px solid transparent", marginBottom: "-3px", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.3rem", transition: "all 0.2s" }}>
+                <span style={{ fontSize: "1.15rem" }}>{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+
+          <main style={{ maxWidth: "1080px", margin: "0 auto", padding: "2rem 1.5rem" }}>
+
+            {/* WHAT IS TIC */}
+            {activeTab === "what" && (
+              <div>
+                <SectionHeader title="What is Trauma-Informed Care?" subtitle="Understanding the foundations — and why they matter in nutrition practice" />
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1.25rem", marginTop: "1.75rem" }}>
+                  {[
+                    { icon: "📌", title: "A Definition", text: "Trauma-informed care (TIC) is an approach to service delivery that recognises the widespread impact of trauma, integrates knowledge about trauma into policies and practices, and seeks to avoid re-traumatisation. It is not a treatment for trauma — it is a way of working.", color: C.teal },
+                    { icon: "🔢", title: "How Common is Trauma?", text: "Studies consistently find that 60–80% of general clinical populations have experienced at least one Adverse Childhood Experience (ACE). In dietetic settings — particularly eating disorders, chronic disease, and disability — rates are higher. Most people you see have a trauma history.", color: C.rust },
+                    { icon: "🍽️", title: "Why It Matters in Dietetics", text: "Food and eating are deeply connected to early caregiving, safety, control, and identity. For trauma survivors, a nutrition consultation can activate fear responses, shame, and powerlessness — often invisibly. Standard dietetic practice can inadvertently re-traumatise.", color: C.terra },
+                    { icon: "⚠️", title: "What Re-traumatisation Looks Like", text: "Re-traumatisation occurs when a person's trauma is activated by a current experience. In dietetics: being weighed without consent, receiving unsolicited diet advice, having food intake judged, or being in a clinical environment that feels threatening can all trigger past trauma responses.", color: C.rose },
+                    { icon: "🔄", title: "TIC is Universal Precautions", text: "You will rarely know a patient's full trauma history — and you don't need to. Trauma-informed practice is a 'universal precautions' approach: you practise as though anyone could have a trauma history, because statistically, most people do.", color: C.sage },
+                    { icon: "🧠", title: "The Neuroscience in Brief", text: "Trauma affects the brain's threat detection system (amygdala), memory (hippocampus), and executive function (prefrontal cortex). Under perceived threat, the thinking brain goes offline. Dietary education delivered to a dysregulated nervous system will not be retained.", color: C.gold },
+                  ].map((card, i) => (
+                    <div key={i} style={{ background: "white", borderRadius: "16px", padding: "1.75rem", boxShadow: "0 4px 16px rgba(74,63,58,0.07)", borderLeft: `5px solid ${card.color}` }}>
+                      <div style={{ fontSize: "1.75rem", marginBottom: "0.75rem" }}>{card.icon}</div>
+                      <h3 style={{ fontFamily: SERIF, fontSize: "1.2rem", color: card.color, margin: "0 0 0.6rem", fontWeight: 600 }}>{card.title}</h3>
+                      <p style={{ fontFamily: SANS, fontSize: "0.9rem", lineHeight: 1.7, color: "#555", margin: 0 }}>{card.text}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: "2.5rem" }}>
+                  <h3 style={{ fontFamily: SERIF, fontSize: "1.5rem", color: C.slate, margin: "0 0 0.5rem", fontWeight: 700 }}>The SAMHSA 6 Principles</h3>
+                  <p style={{ fontFamily: SANS, fontSize: "0.92rem", color: C.fog, marginBottom: "1.25rem" }}>The SAMHSA framework defines six core principles of trauma-informed practice. Click each to see its application in dietetics.</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {samhsaPrinciples.map((p, i) => (
+                      <div key={i} style={{ background: "white", borderRadius: "14px", overflow: "hidden", boxShadow: "0 3px 14px rgba(74,63,58,0.07)" }}>
+                        <button onClick={() => setExpandedSamhsa(expandedSamhsa === i ? null : i)} style={{ width: "100%", padding: "1.1rem 1.5rem", background: expandedSamhsa === i ? p.color : `${p.color}15`, border: "none", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div style={{ display: "flex", gap: "0.9rem", alignItems: "center" }}>
+                            <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: p.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem", fontWeight: 700, color: "white", flexShrink: 0 }}>{p.num}</div>
+                            <span style={{ fontSize: "1rem", marginRight: "0.4rem" }}>{p.icon}</span>
+                            <span style={{ fontFamily: SERIF, fontSize: "1.05rem", fontWeight: 600, color: expandedSamhsa === i ? "white" : p.color }}>{p.name}</span>
+                          </div>
+                          <span style={{ color: expandedSamhsa === i ? "white" : p.color, fontSize: "1.2rem", fontWeight: "bold" }}>{expandedSamhsa === i ? "−" : "+"}</span>
+                        </button>
+                        {expandedSamhsa === i && (
+                          <div style={{ padding: "1.5rem" }}>
+                            <p style={{ fontFamily: SANS, fontSize: "0.9rem", lineHeight: 1.7, color: "#444", marginBottom: "1rem" }}><strong>General principle:</strong> {p.general}</p>
+                            <div style={{ background: `${p.color}0d`, borderRadius: "10px", padding: "1rem 1.25rem", borderLeft: `4px solid ${p.color}`, marginBottom: "1rem" }}>
+                              <div style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, color: p.color, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>In Dietetic Practice</div>
+                              <p style={{ fontFamily: SANS, fontSize: "0.9rem", lineHeight: 1.65, color: "#333", margin: 0 }}>{p.dietetics}</p>
+                            </div>
+                            <div style={{ background: "#fffbea", border: "1px solid #f0d060", borderRadius: "10px", padding: "0.8rem 1.1rem" }}>
+                              <div style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, color: C.gold, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.3rem" }}>Example Opening</div>
+                              <p style={{ fontFamily: SANS, fontSize: "0.9rem", lineHeight: 1.6, color: "#555", margin: 0, fontStyle: "italic" }}>{p.ask}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* HOW TRAUMA APPEARS */}
+            {activeTab === "howappears" && (
+              <div>
+                <SectionHeader title="How Trauma Appears in Dietetic Consultations" subtitle="Recognising the signs — in the dietary history, in the room, and in eating behaviour" />
+                <div style={{ background: `${C.terra}15`, border: `1px solid ${C.terra}40`, borderRadius: "12px", padding: "1rem 1.25rem", margin: "1.25rem 0" }}>
+                  <p style={{ fontFamily: SANS, fontSize: "0.88rem", color: C.clay, margin: 0, lineHeight: 1.65 }}><strong>Important:</strong> These signs are not diagnostic. Many have multiple possible explanations. The purpose of this framework is not to identify trauma — it is to recognise when a patient may need a different kind of response than standard dietary education.</p>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1rem" }}>
+                  {howAppearsData.map((cat, i) => (
+                    <div key={i} style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(74,63,58,0.07)" }}>
+                      <button onClick={() => setExpandedAppears(expandedAppears === i ? null : i)} style={{ width: "100%", padding: "1.2rem 1.5rem", background: expandedAppears === i ? cat.color : `${cat.color}15`, border: "none", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", gap: "0.8rem", alignItems: "center" }}>
+                          <span style={{ fontSize: "1.5rem" }}>{cat.icon}</span>
+                          <h3 style={{ fontFamily: SERIF, fontSize: "1.1rem", fontWeight: 600, color: expandedAppears === i ? "white" : cat.color, margin: 0 }}>{cat.category}</h3>
+                        </div>
+                        <span style={{ color: expandedAppears === i ? "white" : cat.color, fontSize: "1.2rem", fontWeight: "bold" }}>{expandedAppears === i ? "−" : "+"}</span>
+                      </button>
+                      {expandedAppears === i && (
+                        <div style={{ padding: "1.5rem" }}>
+                          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "0.9rem" }}>
+                            {cat.signs.map((s, j) => (
+                              <div key={j} style={{ background: C.cream, borderRadius: "10px", padding: "1rem 1.1rem", borderTop: `3px solid ${cat.color}` }}>
+                                <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.88rem", color: C.slate, marginBottom: "0.4rem" }}>{s.sign}</div>
+                                <div style={{ fontFamily: SANS, fontSize: "0.83rem", color: C.fog, lineHeight: 1.6, fontStyle: "italic" }}>Why: {s.why}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* PRACTICE PRINCIPLES */}
+            {activeTab === "principles" && (
+              <div>
+                <SectionHeader title="Practice Principles" subtitle="How to adapt your dietetic practice to be genuinely trauma-informed — not just trauma-aware" />
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem", marginTop: "1.5rem" }}>
+                  {practicePrinciples.map((p, i) => (
+                    <div key={i} style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(74,63,58,0.07)" }}>
+                      <button onClick={() => setExpandedPrinciple(expandedPrinciple === i ? null : i)} style={{ width: "100%", padding: "1.25rem 1.5rem", background: expandedPrinciple === i ? p.color : `${p.color}15`, border: "none", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem" }}>
+                        <div style={{ display: "flex", gap: "0.8rem", alignItems: "center" }}>
+                          <span style={{ fontSize: "1.5rem" }}>{p.icon}</span>
+                          <h3 style={{ fontFamily: SERIF, fontSize: "1.1rem", fontWeight: 600, color: expandedPrinciple === i ? "white" : p.color, margin: 0 }}>{p.title}</h3>
+                        </div>
+                        <span style={{ color: expandedPrinciple === i ? "white" : p.color, fontSize: "1.2rem", fontWeight: "bold", flexShrink: 0 }}>{expandedPrinciple === i ? "−" : "+"}</span>
+                      </button>
+                      {expandedPrinciple === i && (
+                        <div style={{ padding: "1.5rem" }}>
+                          <p style={{ fontFamily: SANS, fontSize: "0.92rem", lineHeight: 1.7, color: "#444", marginBottom: "1.25rem" }}>{p.detail}</p>
+                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                            <div style={{ background: "#f0fff5", borderRadius: "10px", padding: "1.1rem", borderLeft: `4px solid ${C.sage}` }}>
+                              <div style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, color: C.sage, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.6rem" }}>✓ Do This</div>
+                              {p.doThis.map((d, j) => <p key={j} style={{ fontFamily: SANS, fontSize: "0.87rem", lineHeight: 1.6, color: "#333", margin: j < p.doThis.length - 1 ? "0 0 0.5rem" : 0 }}>• {d}</p>)}
+                            </div>
+                            <div style={{ background: "#fff0f0", borderRadius: "10px", padding: "1.1rem", borderLeft: `4px solid ${C.rose}` }}>
+                              <div style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, color: C.rose, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.6rem" }}>✗ Not This</div>
+                              {p.notThis.map((d, j) => <p key={j} style={{ fontFamily: SANS, fontSize: "0.87rem", lineHeight: 1.6, color: "#333", margin: j < p.notThis.length - 1 ? "0 0 0.5rem" : 0 }}>• {d}</p>)}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* SCENARIOS */}
+            {activeTab === "scenarios" && (
+              <div>
+                <SectionHeader title="Scripts & Scenarios" subtitle="Annotated consultation dialogues showing trauma-informed responses in real dietetic situations" />
+                <div style={{ background: `${C.gold}18`, border: `1px solid ${C.gold}44`, borderRadius: "12px", padding: "1rem 1.25rem", margin: "1.25rem 0 1.5rem" }}>
+                  <p style={{ fontFamily: SANS, fontSize: "0.88rem", color: "#5a4010", margin: 0, lineHeight: 1.65 }}><strong>How to use:</strong> Gold annotation boxes explain the clinical reasoning behind each response. Focus on <em>why</em> the dietitian responds as they do, not just <em>what</em> they say. The reflective questions are for supervision, peer practice, or self-assessment.</p>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                  {scenarios.map((sc, i) => (
+                    <div key={sc.id} style={{ background: "white", borderRadius: "20px", overflow: "hidden", boxShadow: "0 6px 24px rgba(74,63,58,0.1)" }}>
+                      <div style={{ background: `linear-gradient(135deg, ${sc.color}, ${sc.color}aa)`, padding: "1.5rem 2rem", color: "white", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", flexWrap: "wrap" }}>
+                        <div>
+                          <div style={{ marginBottom: "0.5rem" }}>
+                            <span style={{ background: "rgba(255,255,255,0.25)", padding: "0.2rem 0.7rem", borderRadius: "20px", fontSize: "0.75rem", fontWeight: 600 }}>{sc.tag}</span>
+                          </div>
+                          <h3 style={{ fontFamily: SERIF, fontSize: "1.35rem", fontWeight: 700, margin: 0 }}>Scenario {sc.id}: {sc.title}</h3>
+                        </div>
+                        <button onClick={() => setExpandedScenario(expandedScenario === i ? null : i)} style={{ background: "rgba(255,255,255,0.2)", border: "none", color: "white", borderRadius: "50%", width: "36px", height: "36px", fontSize: "1.2rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                          {expandedScenario === i ? "−" : "+"}
+                        </button>
+                      </div>
+                      <div style={{ padding: "1.25rem 2rem 0" }}>
+                        <p style={{ fontFamily: SANS, fontSize: "0.92rem", lineHeight: 1.7, color: "#444", margin: 0, fontStyle: "italic" }}>{sc.context}</p>
+                      </div>
+                      {expandedScenario === i && (
+                        <div style={{ padding: "1.25rem 2rem 2rem" }}>
+                          <h4 style={{ fontFamily: SERIF, fontSize: "1.05rem", color: C.slate, margin: "1.25rem 0 1rem" }}>Consultation Script</h4>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+                            {sc.script.map((line, j) => (
+                              <div key={j} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                                <div style={{ width: "34px", height: "34px", borderRadius: "50%", background: line.spk === "D" ? C.teal : "#aaa", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: 700, flexShrink: 0, marginTop: "2px" }}>{line.spk}</div>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ fontFamily: SANS, fontSize: "0.72rem", fontWeight: 700, color: line.spk === "D" ? C.teal : "#888", marginBottom: "0.25rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>{line.name}</div>
+                                  <div style={{ background: line.spk === "D" ? "#f0faf5" : C.cream, borderRadius: "10px", padding: "0.75rem 1rem", fontSize: "0.9rem", lineHeight: 1.65, color: "#222", borderLeft: `3px solid ${line.spk === "D" ? C.teal : "#ccc"}` }}>{line.text}</div>
+                                  {line.note && (
+                                    <div style={{ background: "#fffaec", border: `1px solid ${C.gold}55`, borderRadius: "8px", padding: "0.5rem 0.85rem", marginTop: "0.4rem", fontSize: "0.82rem", color: "#6b4c0a", lineHeight: 1.55 }}>✍️ {line.note}</div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <div style={{ background: `${sc.color}10`, borderRadius: "12px", padding: "1.1rem 1.25rem", marginTop: "1.5rem", borderLeft: `4px solid ${sc.color}` }}>
+                            <div style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, color: sc.color, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.6rem" }}>✓ Key Techniques</div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                              {sc.techniques.map((t, j) => (
+                                <span key={j} style={{ background: `${sc.color}18`, color: sc.color, borderRadius: "20px", padding: "0.25rem 0.8rem", fontSize: "0.82rem", fontWeight: 500 }}>{t}</span>
+                              ))}
+                            </div>
+                          </div>
+                          <div style={{ background: "#fffbea", border: "1px solid #f0c040", borderRadius: "12px", padding: "1rem 1.25rem", marginTop: "0.85rem", display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                            <span>🤔</span>
+                            <p style={{ fontFamily: SANS, fontSize: "0.88rem", lineHeight: 1.6, color: "#555", margin: 0 }}><strong>Reflective Question:</strong> {sc.reflection}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* LANGUAGE GUIDE */}
+            {activeTab === "language" && (
+              <div>
+                <SectionHeader title="Language Guide" subtitle="Words carry weight — especially for trauma survivors. What to say, what to avoid, and why." />
+                <div style={{ display: "flex", gap: "0.75rem", margin: "1.5rem 0 1.75rem" }}>
+                  {[["avoid", "❌ Avoid This Language", C.rose], ["use", "✓ Use This Language", C.teal]].map(([id, label, color]) => (
+                    <button key={id} onClick={() => setLangView(id)} style={{ flex: 1, padding: "0.85rem 1rem", border: `2px solid ${langView === id ? color : C.border}`, borderRadius: "12px", background: langView === id ? color : "white", color: langView === id ? "white" : C.fog, fontFamily: SANS, fontWeight: 600, fontSize: "0.9rem", cursor: "pointer", transition: "all 0.2s" }}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+                  {(langView === "avoid" ? languageGuide.avoid : languageGuide.use).map((item, i) => (
+                    <div key={i} style={{ background: "white", borderRadius: "14px", padding: "1.25rem 1.5rem", boxShadow: "0 3px 12px rgba(74,63,58,0.06)", borderLeft: `5px solid ${langView === "avoid" ? C.rose : C.teal}` }}>
+                      <div style={{ fontFamily: SERIF, fontSize: "1.05rem", fontWeight: 600, color: langView === "avoid" ? C.rose : C.teal, marginBottom: "0.5rem" }}>{item.phrase}</div>
+                      <div style={{ fontFamily: SANS, fontSize: "0.88rem", color: "#555", lineHeight: 1.6 }}>{item.why}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ marginTop: "2rem", background: C.slate, borderRadius: "16px", padding: "1.75rem 2rem", color: "white" }}>
+                  <h3 style={{ fontFamily: SERIF, fontSize: "1.3rem", margin: "0 0 1rem", color: C.peach }}>🌿 The Underlying Principle</h3>
+                  <p style={{ fontFamily: SANS, fontSize: "0.92rem", lineHeight: 1.75, opacity: 0.9, margin: 0 }}>
+                    Trauma-informed language consistently does three things: it <strong style={{ color: C.peach }}>returns agency</strong> to the patient, it <strong style={{ color: C.peach }}>removes shame</strong> from the interaction, and it <strong style={{ color: C.peach }}>validates experience</strong> before moving toward change. Every phrase in the "avoid" column either removes agency, applies shame, or invalidates experience — often unintentionally. The goal is not perfect language, but a sustained orientation toward safety and respect.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* SELF-CARE */}
+            {activeTab === "selfcare" && (
+              <div>
+                <SectionHeader title="Practitioner Self-Care" subtitle="Working with trauma-affected populations has a cumulative impact on the clinician — this is not optional reading" />
+                <div style={{ background: `${C.dusty}15`, border: `1px solid ${C.dusty}40`, borderRadius: "14px", padding: "1.25rem 1.5rem", margin: "1.5rem 0" }}>
+                  <p style={{ fontFamily: SANS, fontSize: "0.9rem", color: C.clay, margin: 0, lineHeight: 1.7 }}>
+                    <strong>A note to students:</strong> The expectation that you simply "manage" the emotional impact of this work without support is itself a trauma. The dietetics profession is beginning to take clinician wellbeing more seriously — but you don't need to wait for the system to catch up. Start building these practices now.
+                  </p>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {selfCareData.map((s, i) => (
+                    <div key={i} style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(74,63,58,0.07)" }}>
+                      <button onClick={() => setExpandedSelfCare(expandedSelfCare === i ? null : i)} style={{ width: "100%", padding: "1.2rem 1.5rem", background: expandedSelfCare === i ? s.color : `${s.color}15`, border: "none", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", gap: "0.8rem", alignItems: "center" }}>
+                          <span style={{ fontSize: "1.5rem" }}>{s.icon}</span>
+                          <h3 style={{ fontFamily: SERIF, fontSize: "1.1rem", fontWeight: 600, color: expandedSelfCare === i ? "white" : s.color, margin: 0 }}>{s.title}</h3>
+                        </div>
+                        <span style={{ color: expandedSelfCare === i ? "white" : s.color, fontSize: "1.2rem", fontWeight: "bold" }}>{expandedSelfCare === i ? "−" : "+"}</span>
+                      </button>
+                      {expandedSelfCare === i && (
+                        <div style={{ padding: "1.5rem" }}>
+                          <p style={{ fontFamily: SANS, fontSize: "0.92rem", lineHeight: 1.7, color: "#444", marginBottom: "1.25rem" }}>{s.content}</p>
+                          <div style={{ background: `${s.color}0d`, borderRadius: "10px", padding: "1.1rem 1.25rem", borderLeft: `4px solid ${s.color}` }}>
+                            <div style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, color: s.color, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.6rem" }}>What You Can Do</div>
+                            {s.actions.map((a, j) => (
+                              <div key={j} style={{ display: "flex", gap: "0.6rem", marginBottom: j < s.actions.length - 1 ? "0.55rem" : 0, alignItems: "flex-start" }}>
+                                <span style={{ color: s.color, marginTop: "2px", flexShrink: 0 }}>→</span>
+                                <p style={{ fontFamily: SANS, fontSize: "0.88rem", lineHeight: 1.6, color: "#333", margin: 0 }}>{a}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div style={{ marginTop: "2rem", background: C.slate, borderRadius: "16px", padding: "1.75rem 2rem", color: "white" }}>
+                  <h3 style={{ fontFamily: SERIF, fontSize: "1.25rem", margin: "0 0 1rem", color: C.peach }}>📞 Support for You as a Practitioner</h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "0.75rem" }}>
+                    {[{ name: "Lifeline (24hr crisis)", num: "13 11 14" }, { name: "Beyond Blue", num: "1300 22 4636" }, { name: "EAP (ask your workplace)", num: "Confidential counselling" }, { name: "APS Psychologist Referral", num: "1800 333 497" }].map((r, i) => (
+                      <div key={i} style={{ background: "rgba(255,255,255,0.08)", borderRadius: "10px", padding: "0.9rem 1.1rem" }}>
+                        <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.88rem", color: C.peach, marginBottom: "0.25rem" }}>{r.name}</div>
+                        <div style={{ fontFamily: SANS, fontSize: "0.85rem", color: "rgba(255,255,255,0.75)" }}>{r.num}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* REFERENCES */}
+            {activeTab === "references" && (
+              <div>
+                <div style={{ marginBottom: "0.5rem" }}>
+                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", color: C.slate, margin: "0 0 0.5rem", fontWeight: 700 }}>References</h2>
+                  <p style={{ fontFamily: SANS, fontSize: "0.95rem", color: C.fog, margin: 0, lineHeight: 1.6 }}>Sources underpinning the content of this resource, organised by topic. All citations are in APA 7th edition format.</p>
+                </div>
+                <div style={{ background: `${C.terra}15`, border: `1px solid ${C.terra}40`, borderRadius: "12px", padding: "1rem 1.25rem", margin: "1.25rem 0" }}>
+                  <p style={{ fontFamily: SANS, fontSize: "0.88rem", color: C.clay, margin: 0, lineHeight: 1.65 }}><strong>Note on scope:</strong> This resource draws on established trauma science, motivational interviewing research, and healthcare implementation literature. The dietetics-specific evidence base for trauma-informed practice is growing but remains limited — practitioners are encouraged to engage with the broader TIC literature and apply it critically to their context.</p>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "1rem" }}>
+                  {references.map((cat, i) => (
+                    <div key={i} style={{ background: "white", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(74,63,58,0.07)" }}>
+                      <button onClick={() => setExpandedRef(expandedRef === i ? null : i)} style={{ width: "100%", padding: "1.1rem 1.5rem", background: expandedRef === i ? cat.color : `${cat.color}15`, border: "none", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", gap: "0.8rem", alignItems: "center" }}>
+                          <span style={{ fontSize: "1.4rem" }}>{cat.icon}</span>
+                          <h3 style={{ fontFamily: SERIF, fontSize: "1.05rem", fontWeight: 600, color: expandedRef === i ? "white" : cat.color, margin: 0 }}>{cat.category}</h3>
+                        </div>
+                        <span style={{ color: expandedRef === i ? "white" : cat.color, fontSize: "1.2rem", fontWeight: "bold" }}>{expandedRef === i ? "−" : "+"}</span>
+                      </button>
+                      {expandedRef === i && (
+                        <div style={{ padding: "1.25rem 1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                          {cat.items.map((item, j) => (
+                            <div key={j} style={{ background: C.cream, borderRadius: "10px", padding: "1rem 1.25rem", borderLeft: `4px solid ${cat.color}` }}>
+                              <p style={{ fontFamily: SANS, fontSize: "0.88rem", lineHeight: 1.7, color: C.slate, margin: "0 0 0.5rem" }}>{item.citation}</p>
+                              {item.note && <p style={{ fontFamily: SANS, fontSize: "0.82rem", color: C.fog, margin: "0 0 0.4rem", lineHeight: 1.6, fontStyle: "italic" }}>{item.note}</p>}
+                              {item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: SANS, fontSize: "0.8rem", color: cat.color, textDecoration: "none", fontWeight: 500 }}>↗ Access resource</a>}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div style={{ marginTop: "2rem", background: C.slate, borderRadius: "16px", padding: "1.75rem 2rem", color: "white" }}>
+                  <h3 style={{ fontFamily: SERIF, fontSize: "1.2rem", margin: "0 0 0.75rem", color: C.peach }}>Further Reading</h3>
+                  <p style={{ fontFamily: SANS, fontSize: "0.88rem", lineHeight: 1.7, opacity: 0.85, margin: "0 0 1rem" }}>For practitioners seeking to deepen their TIC practice, the following are particularly recommended:</p>
+                  {[
+                    "Van der Kolk (2014) — The Body Keeps the Score: accessible, comprehensive, essential.",
+                    "Miller & Rollnick (2013) — Motivational Interviewing: the definitive MI guide, now in its third edition.",
+                    "SAMHSA (2014) — freely available online; the source document for the 6 principles.",
+                    "Ogden, Minton & Pain (2006) — Trauma and the Body: for those wanting a deeper somatic framework.",
+                    "Figley (1995) — Compassion Fatigue: read before you experience it, not after.",
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: "flex", gap: "0.6rem", marginBottom: "0.5rem", alignItems: "flex-start" }}>
+                      <span style={{ color: C.peach, flexShrink: 0 }}>→</span>
+                      <span style={{ fontFamily: SANS, fontSize: "0.87rem", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          </main>
+
+          <footer style={{ textAlign: "center", padding: "2rem", fontFamily: SANS, fontSize: "0.82rem", color: C.fog, borderTop: `1px solid ${C.border}`, marginTop: "2rem" }}>
+            This resource is for professional development purposes. If you or a patient are in crisis, please contact the appropriate services. Trauma-informed care is a framework, not a substitute for specialist mental health support.
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
